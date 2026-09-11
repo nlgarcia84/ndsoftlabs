@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans: "Geist", "Inter", ui-sans-serif, system-ui, -apple-system,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+	--color-background: #000000;
+	--color-foreground: #ffffff;
+
+	--color-gray-50: #0a0a0a;
+	--color-gray-100: #111111;
+	--color-gray-200: #1f1f1f;
+	--color-gray-300: #333333;
+	--color-gray-400: #666666;
+	--color-gray-500: #888888;
+	--color-gray-600: #a1a1a1;
+	--color-gray-700: #c4c4c4;
+	--color-gray-800: #e0e0e0;
+	--color-gray-900: #f2f2f2;
+
+	--color-accent: #0070f3;
+	--color-accent-hover: #0060df;
+	--color-cyan: #00dfd8;
+	--color-purple: #7928ca;
+	--color-pink: #ff0080;
+	--color-red: #ff4d4d;
+	--color-amber: #f5a623;
+	--color-green: #0070f3;
+
+	--shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
+	--shadow-card-hover: 0 1px 2px rgba(0, 0, 0, 0.06),
+		0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+		color-scheme: dark;
+	}
+
+	body {
+		background-color: var(--color-background);
+		color: var(--color-foreground);
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
+}
+
+@utility gradient-text {
+	background-image: linear-gradient(
+		90deg,
+		#007cf0,
+		#00dfd8,
+		#7928ca,
+		#ff0080
+	);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+}
+
+@utility gradient-border {
+	border-image: linear-gradient(
+			90deg,
+			#007cf0,
+			#00dfd8,
+			#7928ca,
+			#ff0080
+		)
+		1;
+}
