@@ -1,4 +1,136 @@
-<section class="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24">
-  <h2 class="mb-10 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Proyectos</h2>
-  <slot />
-</section>
+---
+import { getCollection } from "astro:content";
+import Section from "../ui/Section.astro";
+
+interface Props {
+  id?: string;
+}
+
+const { id } = Astro.props;
+const projects = await getCollection("projects");
+const loop = [...projects, ...projects];
+---
+<Section id={id} title="Proyectos">
+  <div
+    data-carousel
+    class="cursor-grab select-none overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+  >
+    <ul data-track class="flex w-max gap-4 will-change-transform">
+      {loop.map((project, index) => (
+        <li class="w-96 max-w-[85vw] shrink-0">
+          <a
+            href={project.data.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabindex={index >= projects.length ? -1 : undefined}
+            aria-hidden={index >= projects.length ? "true" : undefined}
+            class="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-gray-50 transition hover:border-gray-300 hover:bg-gray-100"
+          >
+            <img
+              src={project.data.image}
+              alt={project.data.title}
+              draggable="false"
+              class="h-56 w-full shrink-0 object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div class="flex flex-1 flex-col p-5">
+              <h3 class="text-xl font-semibold text-foreground">
+                {project.data.title}
+              </h3>
+              <p class="mt-2 line-clamp-2 text-sm text-gray-600">
+                {project.data.description}
+              </p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<script>
+  const carousel = document.querySelector("[data-carousel]");
+  const track = carousel && carousel.querySelector("[data-track]");
+
+  if (carousel && track) {
+    const items = Array.from(track.children);
+    const half = Math.floor(items.length / 2);
+    const speed = 0.6;
+    let distance = 0;
+    let loopWidth = 0;
+    let paused = false;
+    let dragging = false;
+    let startX = 0;
+    let startOffset = 0;
+    let moved = false;
+
+    const measure = () => {
+      const first = items[0];
+      const marker = items[half];
+      loopWidth = first && marker ? marker.offsetLeft - first.offsetLeft : track.scrollWidth / 2;
+    };
+    measure();
+    window.addEventListener("resize", measure);
+
+    const tick = () => {
+      if (!paused && !dragging) distance -= speed;
+      if (loopWidth > 0) {
+        if (distance <= -loopWidth) distance += loopWidth;
+        if (distance > 0) distance -= loopWidth;
+      }
+      track.style.transform = "translate3d(" + distance + "px, 0, 0)";
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    const pause = () => {
+      paused = true;
+    };
+    const resume = () => {
+      if (!dragging) paused = false;
+    };
+
+    carousel.addEventListener("mouseenter", pause);
+    carousel.addEventListener("mouseleave", resume);
+    carousel.addEventListener("focusin", pause);
+    carousel.addEventListener("focusout", resume);
+
+    carousel.addEventListener("pointerdown", (event) => {
+      dragging = true;
+      moved = false;
+      startX = event.clientX;
+      startOffset = distance;
+      carousel.style.cursor = "grabbing";
+      carousel.setPointerCapture(event.pointerId);
+    });
+
+    carousel.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      const delta = event.clientX - startX;
+      if (Math.abs(delta) > 5) moved = true;
+      distance = startOffset + delta;
+    });
+
+    const stopDrag = (event) => {
+      if (!dragging) return;
+      dragging = false;
+      carousel.style.cursor = "";
+      try {
+        carousel.releasePointerCapture(event.pointerId);
+      } catch {}
+    };
+    carousel.addEventListener("pointerup", stopDrag);
+    carousel.addEventListener("pointercancel", stopDrag);
+
+    carousel.addEventListener(
+      "click",
+      (event) => {
+        if (moved) {
+          event.preventDefault();
+          event.stopPropagation();
+          moved = false;
+        }
+      },
+      true,
+    );
+  }
+</script>

@@ -3,16 +3,19 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Hero from "../components/home/Hero.astro";
 import Services from "../components/home/Services.astro";
 import CTA from "../components/home/CTA.astro";
-import Button from "../components/ui/Button.astro";
+import Projects from "../components/home/Projects.astro";
+import Section from "../components/ui/Section.astro";
+import ContactForm from "../components/ContactForm.astro";
 ---
 <MainLayout
 	title="ND Soft Labs"
 	description="ND Soft Labs - Tu socio en soluciones de software"
 >
-	<Hero>
-		<Button href="/proyectos">Ver proyectos</Button>
-		<Button href="/contacto" variant="secondary">Contactar</Button>
-	</Hero>
-	<Services />
+	<Hero />
+	<Services id="servicios" />
 	<CTA />
+	<Projects id="proyectos" />
+	<Section id="contacto" title="Contacto">
+		<ContactForm />
+	</Section>
 </MainLayout>

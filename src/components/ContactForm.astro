@@ -1,0 +1,117 @@
+---
+import { actions } from "astro:actions";
+import Button from "./ui/Button.astro";
+export const prerender = false;
+const result = Astro.getActionResult(actions.sendContact);
+
+const fieldClass =
+	"w-full border-0 border-b border-gray-300 bg-transparent py-3 text-base text-foreground outline-none transition-colors placeholder:text-gray-600 focus:border-accent";
+---
+<form
+	data-contact-form
+	method="POST"
+	action={actions.sendContact}
+	class="mx-auto mt-12 flex max-w-lg flex-col gap-7"
+>
+	<div class="flex flex-col gap-1">
+		<label for="name" class="text-xs font-medium uppercase tracking-wider text-gray-500">
+			Nombre
+		</label>
+		<input
+			id="name"
+			name="name"
+			type="text"
+			required
+			autocomplete="name"
+			placeholder="Tu nombre"
+			class={fieldClass}
+		/>
+	</div>
+
+	<div class="flex flex-col gap-1">
+		<label for="email" class="text-xs font-medium uppercase tracking-wider text-gray-500">
+			Email
+		</label>
+		<input
+			id="email"
+			name="email"
+			type="email"
+			required
+			autocomplete="email"
+			placeholder="tu@email.com"
+			class={fieldClass}
+		/>
+	</div>
+
+	<div class="flex flex-col gap-1">
+		<label for="message" class="text-xs font-medium uppercase tracking-wider text-gray-500">
+			Mensaje
+		</label>
+		<textarea
+			id="message"
+			name="message"
+			rows="4"
+			required
+			placeholder="Cuéntanos qué necesitas"
+			class={`${fieldClass} resize-none`}
+		></textarea>
+	</div>
+
+	<Button type="submit" class="w-full">Enviar mensaje</Button>
+
+	<p data-contact-status class="hidden text-center text-sm" role="status"></p>
+
+	{result?.error && (
+		<p class="text-center text-sm text-red-400" role="alert">
+			{result.error.message}
+		</p>
+	)}
+	{result?.data && (
+		<p class="text-center text-sm text-emerald-400" role="status">
+			¡Gracias! Te responderemos pronto.
+		</p>
+	)}
+</form>
+
+<script>
+	import { actions } from "astro:actions";
+
+	const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+
+	if (form) {
+		const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const status = form.querySelector<HTMLElement>("[data-contact-status]");
+
+		const showStatus = (message: string, tone: "success" | "error") => {
+			if (!status) return;
+			status.textContent = message;
+			status.className = `text-center text-sm ${
+				tone === "success" ? "text-emerald-400" : "text-red-400"
+			}`;
+		};
+
+		form.addEventListener("submit", async (event) => {
+			event.preventDefault();
+
+			const label = submit?.textContent ?? "";
+			if (submit) {
+				submit.disabled = true;
+				submit.textContent = "Enviando…";
+			}
+
+			const { error } = await actions.sendContact(new FormData(form));
+
+			if (error) {
+				showStatus(error.message ?? "No se pudo enviar el mensaje.", "error");
+			} else {
+				showStatus("¡Gracias! Te responderemos pronto.", "success");
+				form.reset();
+			}
+
+			if (submit) {
+				submit.disabled = false;
+				submit.textContent = label;
+			}
+		});
+	}
+</script>

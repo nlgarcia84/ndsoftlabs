@@ -1,14 +1,16 @@
 ---
+import Section from "../ui/Section.astro";
+import { Icon } from "astro-icon/components";
 import { services } from "../../data/services";
 ---
-<section class="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24">
-	<h2 class="mb-10 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-		Servicios
-	</h2>
+<Section title="Servicios">
 	<ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{services.map((service) => (
-			<li class="group rounded-2xl border border-gray-200 bg-gray-50 p-6 transition-all duration-200 hover:border-gray-300 hover:bg-gray-100">
-				<div class="mb-4 h-8 w-8 rounded-lg bg-gradient-to-br from-accent to-cyan"></div>
+			<li class="group rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center transition-all duration-200 hover:border-gray-300 hover:bg-gray-100">
+				<Icon
+					name={service.icon}
+					class="mx-auto mb-4 h-8 w-8 text-gray-400 transition-colors group-hover:text-foreground"
+				/>
 				<h3 class="mb-2 text-base font-semibold text-foreground">
 					{service.title}
 				</h3>
@@ -18,4 +20,4 @@ import { services } from "../../data/services";
 			</li>
 		))}
 	</ul>
-</section>
+</Section>

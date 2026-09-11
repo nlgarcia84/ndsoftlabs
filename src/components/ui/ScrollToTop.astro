@@ -1,0 +1,32 @@
+---
+import { Icon } from "astro-icon/components";
+---
+<button
+	type="button"
+	data-scroll-top
+	aria-label="Volver arriba"
+	class="fixed right-6 bottom-6 z-40 inline-flex h-11 w-11 translate-y-2 items-center justify-center rounded-full border border-gray-200 bg-background/80 text-foreground opacity-0 backdrop-blur-md transition-all duration-300 pointer-events-none hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
+>
+	<Icon name="lucide:arrow-up" class="h-5 w-5" />
+</button>
+
+<script>
+	const button = document.querySelector<HTMLButtonElement>("[data-scroll-top]");
+
+	if (button) {
+		const setVisible = (visible: boolean) => {
+			button.classList.toggle("opacity-0", !visible);
+			button.classList.toggle("pointer-events-none", !visible);
+			button.classList.toggle("translate-y-2", !visible);
+		};
+
+		const onScroll = () => setVisible(window.scrollY > window.innerHeight);
+
+		onScroll();
+		window.addEventListener("scroll", onScroll, { passive: true });
+
+		button.addEventListener("click", () => {
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		});
+	}
+</script>

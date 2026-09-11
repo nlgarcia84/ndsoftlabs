@@ -1,14 +1,25 @@
-<section class="relative overflow-hidden">
+---
+import heroVideo from "../../assets/hero_video.mp4";
+---
+<section class="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden">
+	<video
+		class="absolute inset-0 -z-20 h-full w-full scale-105 object-cover blur-[2px]"
+		src={heroVideo}
+		autoplay
+		muted
+		loop
+		playsinline
+		preload="metadata"
+		aria-hidden="true"
+	></video>
+
 	<div
-		class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(0,112,243,0.18),transparent_70%)]"
+		class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background/95 via-background/85 to-background"
 		aria-hidden="true"
 	></div>
-	<div class="mx-auto max-w-6xl px-6 py-24 text-center sm:py-32">
-		<span class="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-4 py-1.5 text-xs font-medium text-gray-600">
-			<span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
-			ND Soft Labs
-		</span>
-		<h1 class="mx-auto max-w-4xl text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
+
+	<div class="mx-auto w-full max-w-6xl px-6 py-16 text-center sm:py-24">
+		<h1 class="mx-auto max-w-5xl text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-8xl">
 			Construimos <span class="gradient-text">productos digitales</span> con propósito.
 		</h1>
 		<div class="mt-10 flex flex-wrap items-center justify-center gap-3">

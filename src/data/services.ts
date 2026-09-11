@@ -1,14 +1,32 @@
 export const services = [
   {
-    title: "Estrategia digital",
-    description: "Definimos una dirección clara para cada producto.",
+    title: "Desarrollo web fullstack",
+    description: "Hacemos tu web o aplicación completa: frontend y backend.",
+    icon: "lucide:code-xml",
   },
   {
-    title: "Diseño de producto",
-    description: "Convertimos ideas complejas en experiencias simples.",
+    title: "Apps Android",
+    description: "Creamos aplicaciones nativas para Android.",
+    icon: "lucide:smartphone",
   },
   {
-    title: "Desarrollo web",
-    description: "Construimos sitios rápidos, accesibles y mantenibles.",
+    title: "Backend con Java",
+    description: "APIs y sistemas robustos con Java y Spring Boot.",
+    icon: "lucide:server",
+  },
+  {
+    title: "Bases de datos",
+    description: "Guardamos y organizamos tu información de forma segura.",
+    icon: "lucide:database",
+  },
+  {
+    title: "Integraciones y pagos",
+    description: "Conectamos pasarelas de pago y servicios externos.",
+    icon: "lucide:credit-card",
+  },
+  {
+    title: "Despliegue y soporte",
+    description: "Publicamos tu app en la nube y la mantenemos.",
+    icon: "lucide:cloud-upload",
   },
 ];

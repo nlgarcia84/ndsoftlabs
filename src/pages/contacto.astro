@@ -1,10 +1,18 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import Section from "../components/ui/Section.astro";
+import ContactForm from "../components/ContactForm.astro";
+
+export const prerender = false;
 ---
 <MainLayout title="Contacto" description="Contacta con ND Soft Labs">
-	<section class="mx-auto w-full max-w-6xl px-6 py-16 sm:py-24">
-		<h1 class="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+	<Section>
+		<h1 class="text-center text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
 			Contacto
 		</h1>
-	</section>
+		<p class="mx-auto mt-4 max-w-xl text-center text-sm text-gray-600 sm:text-base">
+			Cuéntanos tu proyecto y te responderemos lo antes posible.
+		</p>
+		<ContactForm />
+	</Section>
 </MainLayout>

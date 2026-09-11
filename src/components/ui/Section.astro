@@ -3,15 +3,18 @@ interface Props {
   id?: string;
   title?: string;
   class?: string;
+  padded?: boolean;
 }
 
-const { id, title, class: className = "" } = Astro.props;
+const { id, title, class: className = "", padded = true } = Astro.props;
 ---
-<section id={id} class={`mx-auto w-full max-w-6xl px-6 py-16 sm:py-24 ${className}`}>
-  {title && (
-    <h2 class="mb-10 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-      {title}
-    </h2>
-  )}
-  <slot />
+<section id={id} class={`${padded ? "py-16 sm:py-24" : ""} ${className}`}>
+  <div class="mx-auto w-full max-w-6xl px-6">
+    {title && (
+      <h2 class="mb-12 text-center text-2xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        {title}
+      </h2>
+    )}
+    <slot />
+  </div>
 </section>

@@ -1,11 +1,13 @@
 import { defineConfig } from "astro/config";
-import tailwindcss from "@tailwindcss/vite"; // 1. Importa el plugin nativo
+import tailwindcss from "@tailwindcss/vite";
+import icon from "astro-icon";
+import vercel from "@astrojs/vercel";
 
 export default defineConfig({
-  // Asegúrate de que NO haya nada de tailwind() en integrations
-  integrations: [],
-
+  adapter: vercel(),
+  output: "static",
+  integrations: [icon()],
   vite: {
-    plugins: [tailwindcss()], // 2. Agrégalo aquí
+    plugins: [tailwindcss()],
   },
 });
