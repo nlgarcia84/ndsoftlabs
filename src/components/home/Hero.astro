@@ -1,29 +1,72 @@
 ---
 import heroVideo from "../../assets/hero_video.mp4";
+import { Icon } from "astro-icon/components";
+
+const words = [
+	{ text: "Construimos" },
+	{ text: "productos", gradient: true },
+	{ text: "digitales", gradient: true },
+	{ text: "con" },
+	{ text: "propósito." },
+];
 ---
-<section class="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden">
+<section data-hero-section class="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden">
 	<video
-		class="absolute inset-0 -z-20 h-full w-full scale-105 object-cover blur-[2px]"
+		data-hero-video
+		class="absolute inset-0 -z-20 h-full w-full scale-110 object-cover blur-[2px]"
 		src={heroVideo}
+		poster="/hero-poster.jpg"
 		autoplay
 		muted
 		loop
 		playsinline
-		preload="metadata"
+		webkit-playsinline
+		preload="auto"
 		aria-hidden="true"
 	></video>
 
 	<div
-		class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background/95 via-background/85 to-background"
+		class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background/90 via-background/70 to-background sm:from-background/95 sm:via-background/85"
 		aria-hidden="true"
 	></div>
 
 	<div class="mx-auto w-full max-w-6xl px-6 py-16 text-center sm:py-24">
 		<h1 class="mx-auto max-w-5xl text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-8xl">
-			Construimos <span class="gradient-text">productos digitales</span> con propósito.
+			{words.map((word) => (
+				<span
+					data-word
+					class={`mr-[0.25em] inline-block ${word.gradient ? "gradient-text" : ""}`}
+				>
+					{word.text}
+				</span>
+			))}
 		</h1>
 		<div class="mt-10 flex flex-wrap items-center justify-center gap-3">
 			<slot />
 		</div>
 	</div>
+
+	<a
+		href="#servicios"
+		data-scroll-indicator
+		aria-label="Desplázate hacia abajo"
+		class="absolute bottom-8 left-1/2 -ml-3.5 text-gray-500 transition-colors hover:text-foreground"
+	>
+		<Icon name="lucide:chevron-down" class="h-7 w-7" />
+	</a>
 </section>
+
+<script>
+	const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+
+	if (video) {
+		const play = () => {
+			video.play().catch(() => {});
+		};
+
+		play();
+		document.addEventListener("touchstart", play, { once: true });
+		document.addEventListener("click", play, { once: true });
+		document.addEventListener("scroll", play, { once: true, passive: true });
+	}
+</script>

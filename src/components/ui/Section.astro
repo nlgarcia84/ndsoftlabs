@@ -8,12 +8,15 @@ interface Props {
 
 const { id, title, class: className = "", padded = true } = Astro.props;
 ---
-<section id={id} class={`${padded ? "py-16 sm:py-24" : ""} ${className}`}>
+<section id={id} data-animate class={`relative ${padded ? "py-20 sm:py-32" : ""} ${className}`}>
   <div class="mx-auto w-full max-w-6xl px-6">
     {title && (
-      <h2 class="mb-12 text-center text-2xl font-semibold tracking-tight text-foreground sm:text-4xl">
-        {title}
-      </h2>
+      <div class="mb-12 flex flex-col items-center gap-5">
+        <span class="h-1 w-12 rounded-full bg-gradient-to-r from-accent via-cyan to-pink"></span>
+        <h2 class="bg-gradient-to-b from-foreground to-gray-500 bg-clip-text text-center text-3xl font-semibold tracking-tight text-transparent sm:text-5xl">
+          {title}
+        </h2>
+      </div>
     )}
     <slot />
   </div>

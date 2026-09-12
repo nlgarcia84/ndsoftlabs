@@ -59,6 +59,7 @@ const loop = [...projects, ...projects];
     let loopWidth = 0;
     let paused = false;
     let dragging = false;
+    let captured = false;
     let startX = 0;
     let startOffset = 0;
     let moved = false;
@@ -96,27 +97,34 @@ const loop = [...projects, ...projects];
 
     carousel.addEventListener("pointerdown", (event) => {
       dragging = true;
+      captured = false;
       moved = false;
       startX = event.clientX;
       startOffset = distance;
       carousel.style.cursor = "grabbing";
-      carousel.setPointerCapture(event.pointerId);
     });
 
     carousel.addEventListener("pointermove", (event) => {
       if (!dragging) return;
       const delta = event.clientX - startX;
-      if (Math.abs(delta) > 5) moved = true;
-      distance = startOffset + delta;
+      if (!captured && Math.abs(delta) > 5) {
+        captured = true;
+        moved = true;
+        carousel.setPointerCapture(event.pointerId);
+      }
+      if (captured) distance = startOffset + delta;
     });
 
     const stopDrag = (event) => {
       if (!dragging) return;
       dragging = false;
       carousel.style.cursor = "";
-      try {
-        carousel.releasePointerCapture(event.pointerId);
-      } catch {}
+      if (captured) {
+        try {
+          carousel.releasePointerCapture(event.pointerId);
+        } catch {}
+        captured = false;
+      }
     };
     carousel.addEventListener("pointerup", stopDrag);
     carousel.addEventListener("pointercancel", stopDrag);

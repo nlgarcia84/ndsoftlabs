@@ -28,5 +28,77 @@ const { title, description } = Astro.props as Props;
 		</main>
 		<Footer />
 		<ScrollToTop />
+
+		<script>
+			import gsap from "gsap";
+			import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+			gsap.registerPlugin(ScrollTrigger);
+
+			const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+			if (!reduce) {
+				const heroSection = document.querySelector<HTMLElement>("[data-hero-section]");
+				const heroWords = gsap.utils.toArray<HTMLElement>("[data-word]");
+
+				if (heroSection && heroWords.length) {
+					gsap.from(heroWords, {
+						opacity: 0,
+						scale: 0.4,
+						transformOrigin: "50% 50%",
+						ease: "none",
+						stagger: 0.2,
+						scrollTrigger: {
+							trigger: heroSection,
+							start: "top 64px",
+							end: "+=120%",
+							scrub: 1,
+							pin: true,
+						},
+					});
+				}
+
+				gsap.utils.toArray<HTMLElement>("[data-animate]").forEach((section) => {
+					gsap.from(section, {
+						autoAlpha: 0,
+						y: 40,
+						duration: 0.8,
+						ease: "power2.out",
+						scrollTrigger: {
+							trigger: section,
+							start: "top 85%",
+						},
+					});
+				});
+
+				const cards = gsap.utils.toArray<HTMLElement>("[data-card]");
+				if (cards.length) {
+					gsap.set(cards, { autoAlpha: 0, y: 30 });
+					ScrollTrigger.batch(cards, {
+						start: "top 85%",
+						onEnter: (batch) =>
+							gsap.to(batch, {
+								autoAlpha: 1,
+								y: 0,
+								duration: 0.6,
+								ease: "power2.out",
+								stagger: 0.12,
+								overwrite: true,
+							}),
+					});
+				}
+
+				const indicator = document.querySelector<HTMLElement>("[data-scroll-indicator]");
+				if (indicator) {
+					gsap.to(indicator, {
+						y: 10,
+						duration: 0.9,
+						repeat: -1,
+						yoyo: true,
+						ease: "sine.inOut",
+					});
+				}
+			}
+		</script>
 	</body>
 </html>

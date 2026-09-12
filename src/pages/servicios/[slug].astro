@@ -1,0 +1,30 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Section from "../../components/ui/Section.astro";
+import { Icon } from "astro-icon/components";
+import { services } from "../../data/services";
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+---
+<MainLayout title={service.title} description={service.description}>
+  <Section>
+    <div class="mx-auto max-w-3xl text-center">
+      <div class={`mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent} text-white`}>
+        <Icon name={service.icon} class="h-7 w-7" />
+      </div>
+      <h1 class="text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+        {service.title}
+      </h1>
+      <p class="mt-4 text-base leading-relaxed text-gray-600">
+        {service.description}
+      </p>
+    </div>
+  </Section>
+</MainLayout>
