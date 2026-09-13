@@ -44,7 +44,8 @@
 	@media (prefers-reduced-motion: no-preference) {
 		.js [data-word],
 		.js [data-animate],
-		.js [data-card] {
+		.js [data-card],
+		.js [data-service-card] {
 			opacity: 0;
 		}
 	}

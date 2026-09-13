@@ -11,21 +11,162 @@ interface Props {
 
 const { id, title = "Servicios", headingLevel } = Astro.props;
 ---
-<Section id={id} title={title} headingLevel={headingLevel}>
-	<ul data-services class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-		{services.map((service) => (
-<li data-card>
-  <a
-    href={`/servicios/${service.slug}`}
-    class="group flex h-full flex-col rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center transition-all duration-200 hover:border-gray-300 hover:bg-gray-100"
-  >
-    <div class={`mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${service.accent} text-white transition-transform duration-200 group-hover:scale-105`}>
-      <Icon name={service.icon} class="h-6 w-6" />
-    </div>
-    <h3 class="mb-2 text-base font-semibold text-gray-900">{service.title}</h3>
-    <p class="text-sm leading-relaxed text-gray-600">{service.description}</p>
-  </a>
-</li>
-		))}
-	</ul>
-</Section>
+<div data-services-track class="relative lg:h-[400vh]">
+	<Section
+		id={id}
+		title={title}
+		headingLevel={headingLevel}
+		animate={false}
+		padded={false}
+		class="flex min-h-[calc(100svh-4rem)] flex-col justify-center py-16 sm:py-20 lg:sticky lg:top-16"
+	>
+		<canvas
+			slot="background"
+			data-services-canvas
+			class="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-40"
+			aria-hidden="true"
+		></canvas>
+		<div
+			slot="background"
+			class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background via-background/70 to-background"
+			aria-hidden="true"
+		></div>
+
+		<ul data-services class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			{services.map((service) => (
+				<li data-service-card>
+					<a
+						href={`/servicios/${service.slug}`}
+						class="group flex h-full flex-col rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center transition-all duration-200 hover:border-gray-300 hover:bg-gray-100"
+					>
+						<div class={`mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${service.accent} text-white transition-transform duration-200 group-hover:scale-105`}>
+							<Icon name={service.icon} class="h-6 w-6" />
+						</div>
+						<h3 class="mb-2 text-base font-semibold text-gray-900">{service.title}</h3>
+						<p class="text-sm leading-relaxed text-gray-600">{service.description}</p>
+					</a>
+				</li>
+			))}
+		</ul>
+	</Section>
+</div>
+
+<script>
+	import gsap from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const track = document.querySelector("[data-services-track]");
+	const cards = gsap.utils.toArray<HTMLElement>("[data-service-card]");
+	const canvas = document.querySelector<HTMLCanvasElement>("[data-services-canvas]");
+
+	const frameModules = import.meta.glob("../../assets/3dvideo-frames/*.jpg", {
+		eager: true,
+		query: "?url",
+		import: "default",
+	}) as Record<string, string>;
+
+	const frameUrls = Object.keys(frameModules)
+		.sort()
+		.map((key) => frameModules[key]);
+
+	const images = frameUrls.map((url) => {
+		const img = new Image();
+		img.decoding = "async";
+		img.src = url;
+		return img;
+	});
+
+	const total = images.length;
+	const ctx = canvas?.getContext("2d") ?? null;
+	let currentFrame = -1;
+
+	const drawFrame = (index: number) => {
+		if (!canvas || !ctx || total === 0) return;
+		const clamped = Math.max(0, Math.min(total - 1, Math.round(index)));
+		if (clamped === currentFrame) return;
+		const img = images[clamped];
+		if (!img || !img.complete || img.naturalWidth === 0) return;
+		currentFrame = clamped;
+
+		const cw = canvas.width;
+		const ch = canvas.height;
+		const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+		const w = img.naturalWidth * scale;
+		const h = img.naturalHeight * scale;
+		ctx.clearRect(0, 0, cw, ch);
+		ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+	};
+
+	const resizeCanvas = () => {
+		if (!canvas) return;
+		const dpr = Math.min(window.devicePixelRatio || 1, 2);
+		const rect = canvas.getBoundingClientRect();
+		canvas.width = Math.max(1, Math.round(rect.width * dpr));
+		canvas.height = Math.max(1, Math.round(rect.height * dpr));
+		const previous = currentFrame;
+		currentFrame = -1;
+		drawFrame(previous < 0 ? 0 : previous);
+	};
+
+	if (canvas && total) {
+		resizeCanvas();
+		window.addEventListener("resize", resizeCanvas);
+		const first = images[0];
+		if (first) first.addEventListener("load", () => drawFrame(0), { once: true });
+	}
+
+	if (!reduce && track && cards.length) {
+		gsap.set(cards, { autoAlpha: 0, y: 60 });
+
+		const mm = gsap.matchMedia();
+
+		mm.add("(min-width: 1024px)", () => {
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: track,
+					start: "top 64px",
+					end: "bottom bottom",
+					scrub: 1,
+					invalidateOnRefresh: true,
+					onUpdate: (self) => drawFrame(self.progress * (total - 1)),
+				},
+			});
+
+			cards.forEach((card, i) => {
+				tl.to(card, { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" }, i);
+			});
+		});
+
+		mm.add("(max-width: 1023px)", () => {
+			let frame = 0;
+			let last = 0;
+			const fps = total / 20;
+
+			const tick = (time: number) => {
+				if (time - last > 1000 / fps) {
+					last = time;
+					drawFrame(frame);
+					frame = (frame + 1) % total;
+				}
+				requestAnimationFrame(tick);
+			};
+			requestAnimationFrame(tick);
+
+			ScrollTrigger.batch(cards, {
+				start: "top 85%",
+				onEnter: (batch) =>
+					gsap.to(batch, {
+						autoAlpha: 1,
+						y: 0,
+						duration: 0.6,
+						ease: "power2.out",
+						stagger: 0.12,
+						overwrite: true,
+					}),
+			});
+		});
+	}
+</script>

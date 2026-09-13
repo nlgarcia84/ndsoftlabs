@@ -7,6 +7,7 @@ import Projects from "../components/home/Projects.astro";
 import Section from "../components/ui/Section.astro";
 import ContactForm from "../components/ContactForm.astro";
 import Team from "../components/Team.astro";
+import Button from "../components/ui/Button.astro";
 ---
 <MainLayout
 	title="ND Soft Labs"
@@ -16,6 +17,9 @@ import Team from "../components/Team.astro";
 	<Services id="servicios" />
 	<CTA />
 	<Team id="nosotros" />
+	<div class="mt-10 flex justify-center">
+		<Button href="/nosotros" variant="secondary">Conocé más sobre ND Soft Labs</Button>
+	</div>
 	<Projects id="proyectos" />
 	<Section id="contacto" title="Contacto">
 		<ContactForm />

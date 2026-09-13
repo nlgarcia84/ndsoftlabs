@@ -1,4 +1,12 @@
-export const services = [
+export interface Service {
+  slug: string;
+  title: string;
+  description: string;
+  icon: string;
+  accent: string;
+}
+
+export const services: Service[] = [
   {
     slug: "desarrollo-web-fullstack",
     title: "Desarrollo web fullstack",
