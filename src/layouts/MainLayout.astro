@@ -22,6 +22,7 @@ const { title, description } = Astro.props as Props;
 		<meta name="generator" content={Astro.generator} />
 		{description && <meta name="description" content={description} />}
 		<title>{title}</title>
+		<script is:inline>document.documentElement.classList.add("js");</script>
 	</head>
 	<body class="font-sans bg-background text-foreground min-h-screen flex flex-col">
 		<Header />
@@ -49,33 +50,40 @@ const { title, description } = Astro.props as Props;
 				const heroWords = gsap.utils.toArray<HTMLElement>("[data-word]");
 
 				if (heroSection && heroWords.length) {
-					gsap.from(heroWords, {
-						opacity: 0,
-						scale: 0.4,
-						transformOrigin: "50% 50%",
-						ease: "none",
-						stagger: 0.2,
-						scrollTrigger: {
-							trigger: heroSection,
-							start: "top 64px",
-							end: "+=120%",
-							scrub: 1,
-							pin: true,
+					gsap.fromTo(
+						heroWords,
+						{ opacity: 0, scale: 0.4, transformOrigin: "50% 50%" },
+						{
+							opacity: 1,
+							scale: 1,
+							ease: "none",
+							stagger: 0.2,
+							scrollTrigger: {
+								trigger: heroSection,
+								start: "top 64px",
+								end: "+=120%",
+								scrub: 1,
+								pin: true,
+							},
 						},
-					});
+					);
 				}
 
 				gsap.utils.toArray<HTMLElement>("[data-animate]").forEach((section) => {
-					gsap.from(section, {
-						autoAlpha: 0,
-						y: 40,
-						duration: 0.8,
-						ease: "power2.out",
-						scrollTrigger: {
-							trigger: section,
-							start: "top 85%",
+					gsap.fromTo(
+						section,
+						{ autoAlpha: 0, y: 40 },
+						{
+							autoAlpha: 1,
+							y: 0,
+							duration: 0.8,
+							ease: "power2.out",
+							scrollTrigger: {
+								trigger: section,
+								start: "top 85%",
+							},
 						},
-					});
+					);
 				});
 
 				const cards = gsap.utils.toArray<HTMLElement>("[data-card]");

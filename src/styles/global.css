@@ -40,6 +40,14 @@
 		-webkit-font-smoothing: antialiased;
 		text-rendering: optimizeLegibility;
 	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.js [data-word],
+		.js [data-animate],
+		.js [data-card] {
+			opacity: 0;
+		}
+	}
 }
 
 @utility gradient-text {
