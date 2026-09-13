@@ -4,18 +4,27 @@ interface Props {
   title?: string;
   class?: string;
   padded?: boolean;
+  headingLevel?: "h1" | "h2" | "h3";
 }
 
-const { id, title, class: className = "", padded = true } = Astro.props;
+const {
+  id,
+  title,
+  class: className = "",
+  padded = true,
+  headingLevel = "h2",
+} = Astro.props;
+
+const Heading = headingLevel;
 ---
 <section id={id} data-animate class={`relative ${padded ? "py-20 sm:py-32" : ""} ${className}`}>
   <div class="mx-auto w-full max-w-6xl px-6">
     {title && (
       <div class="mb-12 flex flex-col items-center gap-5">
         <span class="h-1 w-12 rounded-full bg-gradient-to-r from-accent via-cyan to-pink"></span>
-        <h2 class="bg-gradient-to-b from-foreground to-gray-500 bg-clip-text text-center text-3xl font-semibold tracking-tight text-transparent sm:text-5xl">
+        <Heading class="bg-gradient-to-b from-foreground to-gray-500 bg-clip-text text-center text-3xl font-semibold tracking-tight text-transparent sm:text-5xl">
           {title}
-        </h2>
+        </Heading>
       </div>
     )}
     <slot />

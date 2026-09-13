@@ -10,10 +10,10 @@ const words = [
 	{ text: "propósito." },
 ];
 ---
-<section data-hero-section class="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden">
+<section data-hero-section class="relative isolate flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-background [clip-path:inset(0)]">
 	<video
 		data-hero-video
-		class="absolute inset-0 -z-20 h-full w-full scale-110 object-cover blur-[2px]"
+		class="absolute inset-0 -z-20 h-full w-full scale-110 object-cover blur-[2px] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_92%)] [mask-image:linear-gradient(to_bottom,black_55%,transparent_92%)]"
 		src={heroVideo}
 		poster="/hero-poster.jpg"
 		autoplay
