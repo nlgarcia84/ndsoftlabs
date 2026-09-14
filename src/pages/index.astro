@@ -18,12 +18,12 @@ import Button from "../components/ui/Button.astro";
 	<CTA />
 	<Team id="nosotros" />
 	<div class="mt-10 flex justify-center">
-		<Button class="text-3xl" href="/nosotros">
+		<Button class="text-xl" variant="secondary" href="/nosotros">
 			Conoce más sobre ND Soft Labs
 		</Button>
 	</div>
 	<Projects id="proyectos" />
 	<Section id="contacto" title="Contacto">
-		<ContactForm />
+		<ContactForm client:load />
 	</Section>
 </MainLayout>

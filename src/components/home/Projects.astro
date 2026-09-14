@@ -13,11 +13,11 @@ const loop = [...projects, ...projects];
 <Section id={id} title="Proyectos">
   <div
     data-carousel
-    class="cursor-grab select-none overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+    class="cursor-grab select-none overflow-hidden mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
   >
     <ul data-track class="flex w-max gap-4 will-change-transform">
       {loop.map((project, index) => (
-        <li class="w-96 max-w-[85vw] shrink-0">
+        <li class="w-104 max-w-[85vw] shrink-0 sm:w-md lg:w-120">
           <a
             href={project.data.url}
             target="_blank"
@@ -30,7 +30,7 @@ const loop = [...projects, ...projects];
               src={project.data.image}
               alt={project.data.title}
               draggable="false"
-              class="h-56 w-full shrink-0 object-cover transition-transform duration-300 group-hover:scale-105"
+              class="h-64 w-full shrink-0 object-cover transition-transform duration-300 group-hover:scale-105 sm:h-72 lg:h-80"
             />
             <div class="flex flex-1 flex-col p-5">
               <h3 class="text-xl font-semibold text-foreground">
@@ -48,11 +48,11 @@ const loop = [...projects, ...projects];
 </Section>
 
 <script>
-  const carousel = document.querySelector("[data-carousel]");
-  const track = carousel && carousel.querySelector("[data-track]");
+  const carousel = document.querySelector<HTMLElement>("[data-carousel]");
+  const track = carousel?.querySelector<HTMLElement>("[data-track]");
 
   if (carousel && track) {
-    const items = Array.from(track.children);
+    const items = Array.from(track.children) as HTMLElement[];
     const half = Math.floor(items.length / 2);
     const speed = 0.6;
     let distance = 0;
@@ -95,7 +95,7 @@ const loop = [...projects, ...projects];
     carousel.addEventListener("focusin", pause);
     carousel.addEventListener("focusout", resume);
 
-    carousel.addEventListener("pointerdown", (event) => {
+    carousel.addEventListener("pointerdown", (event: PointerEvent) => {
       dragging = true;
       captured = false;
       moved = false;
@@ -104,7 +104,7 @@ const loop = [...projects, ...projects];
       carousel.style.cursor = "grabbing";
     });
 
-    carousel.addEventListener("pointermove", (event) => {
+    carousel.addEventListener("pointermove", (event: PointerEvent) => {
       if (!dragging) return;
       const delta = event.clientX - startX;
       if (!captured && Math.abs(delta) > 5) {
@@ -115,7 +115,7 @@ const loop = [...projects, ...projects];
       if (captured) distance = startOffset + delta;
     });
 
-    const stopDrag = (event) => {
+    const stopDrag = (event: PointerEvent) => {
       if (!dragging) return;
       dragging = false;
       carousel.style.cursor = "";
@@ -131,7 +131,7 @@ const loop = [...projects, ...projects];
 
     carousel.addEventListener(
       "click",
-      (event) => {
+      (event: MouseEvent) => {
         if (moved) {
           event.preventDefault();
           event.stopPropagation();
