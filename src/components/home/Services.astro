@@ -18,7 +18,7 @@ const { id, title = "Servicios", headingLevel } = Astro.props;
 		headingLevel={headingLevel}
 		animate={false}
 		padded={false}
-		class="flex min-h-[calc(100svh-4rem)] flex-col justify-center py-16 sm:py-20 lg:sticky lg:top-16"
+		class="flex min-h-[calc(100svh-5rem)] flex-col justify-center py-16 sm:py-20 lg:sticky lg:top-20"
 	>
 		<canvas
 			slot="background"
@@ -37,13 +37,13 @@ const { id, title = "Servicios", headingLevel } = Astro.props;
 				<li data-service-card>
 					<a
 						href={`/servicios/${service.slug}`}
-						class="group flex h-full flex-col rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center transition-all duration-200 hover:border-gray-300 hover:bg-gray-100"
+						class="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-200 hover:border-white/20 hover:bg-white/10"
 					>
 						<div class={`mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${service.accent} text-white transition-transform duration-200 group-hover:scale-105`}>
 							<Icon name={service.icon} class="h-6 w-6" />
 						</div>
-						<h3 class="mb-2 text-base font-semibold text-gray-900">{service.title}</h3>
-						<p class="text-sm leading-relaxed text-gray-600">{service.description}</p>
+						<h3 class="mb-2 text-2xl font-semibold text-gray-900">{service.title}</h3>
+						<p class="text-xl leading-relaxed text-gray-600">{service.shortDescription}</p>
 					</a>
 				</li>
 			))}
@@ -127,7 +127,7 @@ const { id, title = "Servicios", headingLevel } = Astro.props;
 			const tl = gsap.timeline({
 				scrollTrigger: {
 					trigger: track,
-					start: "top 64px",
+					start: "top 80px",
 					end: "bottom bottom",
 					scrub: 1,
 					invalidateOnRefresh: true,
