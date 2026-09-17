@@ -11,7 +11,6 @@ export const server = {
       email: z.string().email(),
       message: z
         .string()
-        .min(10, "El mensaje debe tener al menos 10 caracteres"),
     }),
     handler: async ({ name, email, message }) => {
       const apiKey = import.meta.env.RESEND_API_KEY;
