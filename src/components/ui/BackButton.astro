@@ -1,0 +1,17 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "./Button.astro";
+
+interface Props {
+  href?: string;
+  label?: string;
+  class?: string;
+}
+
+const { href = "/servicios", label = "Volver", class: className = "" } = Astro.props;
+---
+
+<Button href={href} variant="ghost" class={`gap-2 ${className}`}>
+  <Icon name="lucide:arrow-left" class="h-4 w-4" aria-hidden="true" />
+  <span>{label}</span>
+</Button>
