@@ -3,13 +3,13 @@ import { navigation } from "../../data/navigation";
 ---
 
 <header class="sticky top-0 z-50 w-full border-b border-gray-200 bg-background/80 backdrop-blur-md">
-	<div class="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
+	<div class="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
 		<a
 			href="/"
 			aria-label="ND Soft Labs, inicio"
 			class="text-xl font-semibold tracking-tight transition-opacity hover:opacity-80"
 		>
-			<span class="gradient-text">ND</span> Soft Labs
+			<span class="bg-gradient-to-r from-cyan via-accent to-pink bg-clip-text text-transparent">ND</span> Soft Labs
 		</a>
 
 		<nav aria-label="Navegación principal" class="hidden lg:block">
@@ -71,7 +71,7 @@ import { navigation } from "../../data/navigation";
 		data-menu-panel
 		class="absolute left-0 right-0 top-full overflow-hidden border-t border-gray-200 bg-background/80 backdrop-blur-md lg:hidden"
 	>
-		<nav aria-label="Navegación móvil" class="mx-auto max-w-6xl px-6 py-4">
+		<nav aria-label="Navegación móvil" class="mx-auto max-w-6xl px-4 py-4 sm:px-6">
 			<ul class="flex flex-col gap-1">
 				{navigation.map((item, index) => (
 					<li style={`transition-delay: ${index * 60}ms`}>
@@ -127,8 +127,9 @@ import { navigation } from "../../data/navigation";
 	const panel = document.querySelector("[data-menu-panel]");
 	const iconOpen = document.querySelector("[data-menu-icon-open]");
 	const iconClose = document.querySelector("[data-menu-icon-close]");
+	const header = document.querySelector("header");
 
-	if (toggle && panel) {
+	if (toggle && panel && header) {
 		const setOpen = (open) => {
 			panel.classList.toggle("is-open", open);
 			toggle.setAttribute("aria-expanded", String(open));
@@ -141,12 +142,23 @@ import { navigation } from "../../data/navigation";
 			setOpen(!panel.classList.contains("is-open"));
 		});
 
+		document.addEventListener("click", (event) => {
+			const target = event.target;
+			if (!(target instanceof Node)) return;
+			if (!header.contains(target)) setOpen(false);
+		});
+
 		panel.addEventListener("click", (event) => {
-			if (event.target.closest("a")) setOpen(false);
+			const target = event.target;
+			if (target instanceof Element && target.closest("a")) setOpen(false);
 		});
 
 		document.addEventListener("keydown", (event) => {
 			if (event.key === "Escape") setOpen(false);
+		});
+
+		window.addEventListener("resize", () => {
+			if (window.innerWidth >= 1024) setOpen(false);
 		});
 	}
 </script>

@@ -3,17 +3,17 @@ import heroVideo from "../../assets/hero_video.mp4";
 import { Icon } from "astro-icon/components";
 
 const heroLines = [
-	{ text: "Diseñamos y desarrollamos" },
+	{ text: "Diseñamos" },
 	{ text: "webs", gradient: true },
-	{ text: "que ayudan a tu negocio" },
-	{ text: "a conseguir clientes", gradient: true },
+	{ text: "que convierten" },
+	{ text: "clientes", gradient: true },
 ];
 ---
 <section data-hero-section class="relative isolate flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-background [clip-path:inset(0)]">
 	<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
-		<div data-hero-orb class="absolute left-[8%] top-[18%] h-40 w-40 rounded-full bg-cyan/15 blur-3xl"></div>
-		<div data-hero-orb class="absolute right-[12%] top-[22%] h-52 w-52 rounded-full bg-purple/15 blur-3xl"></div>
-		<div data-hero-orb class="absolute bottom-[14%] left-[35%] h-48 w-48 rounded-full bg-pink/10 blur-3xl"></div>
+		<div data-hero-orb class="absolute left-[8%] top-[18%] h-24 w-24 rounded-full bg-cyan/15 blur-3xl sm:h-40 sm:w-40"></div>
+		<div data-hero-orb class="absolute right-[12%] top-[22%] h-32 w-32 rounded-full bg-purple/15 blur-3xl sm:h-52 sm:w-52"></div>
+		<div data-hero-orb class="absolute bottom-[14%] left-[35%] h-28 w-28 rounded-full bg-pink/10 blur-3xl sm:h-48 sm:w-48"></div>
 	</div>
 
 	<video
@@ -35,10 +35,10 @@ const heroLines = [
 		aria-hidden="true"
 	></div>
 
-	<div class="mx-auto w-full max-w-6xl px-6 py-16 text-center sm:py-24">
-		<h1 class="mx-auto max-w-5xl text-balance text-5xl leading-[1.15] font-semibold tracking-tight text-foreground sm:text-8xl">
+	<div class="mx-auto w-full max-w-6xl px-4 py-14 text-center sm:px-6 sm:py-24">
+		<h1 class="hero-heading mx-auto max-w-[26ch] text-balance text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] font-semibold tracking-[-0.05em] text-foreground sm:max-w-5xl sm:text-[clamp(3.25rem,6vw,8rem)]">
 			{heroLines.map((line) => (
-				<span class="hero-line block">
+				<span class="hero-line block break-keep whitespace-normal">
 					{line.gradient ? (
 						<span class="gradient-text inline-block">{line.text}</span>
 					) : (
@@ -47,10 +47,10 @@ const heroLines = [
 				</span>
 			))}
 		</h1>
-		<h2 class="hero-description mx-auto mt-8 max-w-3xl font-sans text-base font-medium leading-relaxed tracking-[-0.02em] text-white/85 sm:mt-10 sm:text-xl lg:mt-12 lg:text-2xl">
+		<h2 data-hero-subtitle class="hero-description mx-auto mt-6 max-w-3xl font-sans text-[0.95rem] font-medium leading-relaxed tracking-[-0.02em] text-white/85 sm:mt-8 sm:text-xl lg:mt-12 lg:text-2xl">
 			Creamos páginas web rápidas, modernas y adaptadas a móvil para empresas y negocios que quieren mejorar su presencia online.
 		</h2>
-		<div class="hero-actions mt-10 flex flex-wrap items-center justify-center gap-3">
+		<div class="hero-actions mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10">
 			<slot />
 		</div>
 	</div>
