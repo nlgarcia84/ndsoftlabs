@@ -1,5 +1,37 @@
-<footer class="border-t border-gray-200 bg-gray-50">
-	<div class="mx-auto flex max-w-6xl flex-col items-center justify-center gap-4 px-6 py-10 text-center text-sm text-gray-600">
-		<p>&copy; {new Date().getFullYear()} ND Soft Labs. Todos los derechos reservados.</p>
+<footer class="border-t border-white/10 bg-background">
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+		<div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
+			<div>
+				<a href="/" aria-label="ND Soft Labs, inicio" class="text-xl font-semibold tracking-tight">
+					<span class="bg-linear-to-r from-cyan via-accent to-pink bg-clip-text text-transparent">ND</span>
+					<span class="text-foreground"> Soft Labs</span>
+				</a>
+				<p class="mt-4 max-w-sm text-sm leading-relaxed text-gray-500">
+					Diseñamos productos digitales claros, rápidos y preparados para crecer.
+				</p>
+			</div>
+
+			<nav aria-label="Navegación del pie de página">
+				<h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Explora</h2>
+				<ul class="mt-4 space-y-3 text-sm text-gray-500">
+					<li><a href="/#servicios" class="transition-colors hover:text-foreground">Servicios</a></li>
+					<li><a href="/#proyectos" class="transition-colors hover:text-foreground">Proyectos</a></li>
+					<li><a href="/#contacto" class="transition-colors hover:text-foreground">Contacto</a></li>
+				</ul>
+			</nav>
+
+			<nav aria-label="Información legal">
+				<h2 class="text-xs font-semibold uppercase tracking-wider text-gray-400">Legal</h2>
+				<ul class="mt-4 space-y-3 text-sm text-gray-500">
+					<li><a href="/privacidad" class="transition-colors hover:text-foreground">Política de privacidad</a></li>
+					<li><a href="/condiciones" class="transition-colors hover:text-foreground">Condiciones de uso</a></li>
+				</ul>
+			</nav>
+		</div>
+
+		<div class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-gray-600 sm:flex-row sm:items-center sm:justify-between">
+			<p>&copy; {new Date().getFullYear()} ND Soft Labs. Todos los derechos reservados.</p>
+			<p>Hecho con cuidado para la web.</p>
+		</div>
 	</div>
 </footer>

@@ -36,6 +36,7 @@ const { title, description } = Astro.props as Props;
 			import gsap from "gsap";
 			import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+			// Registra las animaciones globales y respeta la preferencia de movimiento reducido.
 			gsap.registerPlugin(ScrollTrigger);
 
 			ScrollTrigger.config({
@@ -46,6 +47,7 @@ const { title, description } = Astro.props as Props;
 			const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 			if (!reduce) {
+				// Prepara las animaciones de entrada, scroll y gradiente del sitio.
 				const heroSection = document.querySelector<HTMLElement>("[data-hero-section]");
 				const heroWords = gsap.utils.toArray<HTMLElement>("[data-word]");
 				const heroSubtitle = document.querySelector<HTMLElement>("[data-hero-subtitle]");

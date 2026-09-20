@@ -89,6 +89,7 @@ const services = await getCollection("services");
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+	// Anima las tarjetas y sincroniza el vídeo de frames con el desplazamiento.
 	gsap.registerPlugin(ScrollTrigger);
 
 	const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -120,6 +121,7 @@ const services = await getCollection("services");
 	let requestedFrame = 0;
 
 	const drawFrame = (index: number) => {
+		// Dibuja el frame disponible centrado y adaptado al tamaño del canvas.
 		if (!canvas || !ctx || total === 0) return;
 		const clamped = Math.max(0, Math.min(total - 1, Math.round(index)));
 		requestedFrame = clamped;

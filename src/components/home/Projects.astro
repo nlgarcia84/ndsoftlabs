@@ -48,6 +48,7 @@ const loop = [...projects, ...projects];
 </Section>
 
 <script>
+	// Configura el carrusel continuo de proyectos y sus interacciones táctiles.
   const carousel = document.querySelector<HTMLElement>("[data-carousel]");
   const track = carousel?.querySelector<HTMLElement>("[data-track]");
 
@@ -65,6 +66,7 @@ const loop = [...projects, ...projects];
     let moved = false;
 
     const measure = () => {
+		// Calcula el ancho de una vuelta para mantener el carrusel infinito.
       const first = items[0];
       const marker = items[half];
       loopWidth = first && marker ? marker.offsetLeft - first.offsetLeft : track.scrollWidth / 2;
@@ -73,6 +75,7 @@ const loop = [...projects, ...projects];
     window.addEventListener("resize", measure);
 
     const tick = () => {
+		// Mueve la pista en cada frame mientras no esté pausada o arrastrándose.
       if (!paused && !dragging) distance -= speed;
       if (loopWidth > 0) {
         if (distance <= -loopWidth) distance += loopWidth;

@@ -66,6 +66,8 @@ const heroLines = [
 </section>
 
 <script>
+	// Intenta reproducir el vídeo también después de una interacción del usuario,
+	// por si el navegador bloquea el autoplay inicial.
 	const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
 
 	if (video) {

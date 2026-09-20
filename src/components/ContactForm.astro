@@ -75,7 +75,7 @@ const fieldClass =
 				required
 				class="mt-1 accent-accent"
 			/>
-			<span>Acepto los términos y condiciones.</span>
+			<span>Acepto los <a href="/condiciones" class="text-blue-500 hover:underline">términos y condiciones</a>.</span>
 		</label>
 	</div>
 
@@ -98,6 +98,7 @@ const fieldClass =
 <script>
 	import { actions } from "astro:actions";
 
+	// Gestiona el envío asíncrono del formulario sin recargar la página.
 	const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
 
 	if (form) {
@@ -105,6 +106,7 @@ const fieldClass =
 		const status = form.querySelector<HTMLElement>("[data-contact-status]");
 
 		const showStatus = (message: string, tone: "success" | "error") => {
+			// Muestra el resultado del envío con el tono visual correspondiente.
 			if (!status) return;
 			status.textContent = message;
 			status.className = `text-center text-sm ${

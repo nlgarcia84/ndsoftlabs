@@ -9,7 +9,7 @@ import { navigation } from "../../data/navigation";
 			aria-label="ND Soft Labs, inicio"
 			class="text-xl font-semibold tracking-tight transition-opacity hover:opacity-80"
 		>
-			<span class="bg-gradient-to-r from-cyan via-accent to-pink bg-clip-text text-transparent">ND</span> Soft Labs
+			<span class="bg-linear-to-r from-cyan via-accent to-pink bg-clip-text text-transparent">ND</span> Soft Labs
 		</a>
 
 		<nav aria-label="Navegación principal" class="hidden lg:block">
@@ -123,6 +123,7 @@ import { navigation } from "../../data/navigation";
 </style>
 
 <script>
+	// Controla la apertura del menú móvil y sus estados accesibles.
 	const toggle = document.querySelector("[data-menu-toggle]");
 	const panel = document.querySelector("[data-menu-panel]");
 	const iconOpen = document.querySelector("[data-menu-icon-open]");
@@ -130,7 +131,8 @@ import { navigation } from "../../data/navigation";
 	const header = document.querySelector("header");
 
 	if (toggle && panel && header) {
-		const setOpen = (open) => {
+		const setOpen = (open: boolean) => {
+			// Sincroniza el panel, los iconos y los atributos ARIA.
 			panel.classList.toggle("is-open", open);
 			toggle.setAttribute("aria-expanded", String(open));
 			toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
