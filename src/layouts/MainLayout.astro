@@ -47,26 +47,65 @@ const { title, description } = Astro.props as Props;
 
 			if (!reduce) {
 				const heroSection = document.querySelector<HTMLElement>("[data-hero-section]");
-				const heroWords = gsap.utils.toArray<HTMLElement>("[data-word]");
+				const heroLines = gsap.utils.toArray<HTMLElement>(".hero-line");
+				const heroDescription = document.querySelector<HTMLElement>(".hero-description");
+				const heroActions = document.querySelector<HTMLElement>(".hero-actions");
+				const heroOrbs = gsap.utils.toArray<HTMLElement>("[data-hero-orb]");
 
-				if (heroSection && heroWords.length) {
-					gsap.fromTo(
-						heroWords,
-						{ opacity: 0, scale: 0.4, transformOrigin: "50% 50%" },
-						{
-							opacity: 1,
-							scale: 1,
-							ease: "none",
-							stagger: 0.2,
-							scrollTrigger: {
-								trigger: heroSection,
-								start: "top 80px",
-								end: "+=120%",
-								scrub: 1,
-								pin: true,
-							},
+				if (heroSection && heroLines.length) {
+					const tl = gsap.timeline({
+						defaults: {
+							ease: "power3.out",
 						},
-					);
+					});
+
+					tl.from(heroLines, {
+						y: 35,
+						opacity: 0,
+						duration: 0.8,
+						stagger: 0.12,
+					})
+						.from(
+							heroDescription,
+							{
+								y: 20,
+								opacity: 0,
+								duration: 0.6,
+							},
+							"-=0.35",
+						)
+						.from(
+							heroActions,
+							{
+								y: 15,
+								opacity: 0,
+								duration: 0.5,
+							},
+							"-=0.25",
+						);
+				}
+
+				gsap.to(".gradient-text", {
+					backgroundPosition: "200% center",
+					duration: 3,
+					ease: "none",
+					repeat: -1,
+				});
+
+				if (heroOrbs.length) {
+					window.addEventListener("pointermove", (event) => {
+						const x = ((event.clientX / window.innerWidth) - 0.5) * 12;
+						const y = ((event.clientY / window.innerHeight) - 0.5) * 12;
+
+						gsap.to(heroOrbs, {
+							x,
+							y,
+							duration: 1.2,
+							ease: "power3.out",
+							overwrite: true,
+							stagger: 0.08,
+						});
+					});
 				}
 
 				gsap.utils.toArray<HTMLElement>("[data-animate]").forEach((section) => {

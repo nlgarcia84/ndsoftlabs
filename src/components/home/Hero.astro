@@ -2,15 +2,20 @@
 import heroVideo from "../../assets/hero_video.mp4";
 import { Icon } from "astro-icon/components";
 
-const words = [
-	{ text: "Construimos" },
-	{ text: "productos", gradient: true },
-	{ text: "digitales", gradient: true },
-	{ text: "con" },
-	{ text: "propósito." },
+const heroLines = [
+	{ text: "Diseñamos y desarrollamos" },
+	{ text: "webs", gradient: true },
+	{ text: "que ayudan a tu negocio" },
+	{ text: "a conseguir clientes", gradient: true },
 ];
 ---
 <section data-hero-section class="relative isolate flex min-h-[calc(100svh-5rem)] items-center overflow-hidden bg-background [clip-path:inset(0)]">
+	<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+		<div data-hero-orb class="absolute left-[8%] top-[18%] h-40 w-40 rounded-full bg-cyan/15 blur-3xl"></div>
+		<div data-hero-orb class="absolute right-[12%] top-[22%] h-52 w-52 rounded-full bg-purple/15 blur-3xl"></div>
+		<div data-hero-orb class="absolute bottom-[14%] left-[35%] h-48 w-48 rounded-full bg-pink/10 blur-3xl"></div>
+	</div>
+
 	<video
 		data-hero-video
 		class="absolute inset-0 -z-20 h-full w-full scale-110 object-cover blur-[2px] [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent_92%)] [mask-image:linear-gradient(to_bottom,black_55%,transparent_92%)]"
@@ -31,17 +36,21 @@ const words = [
 	></div>
 
 	<div class="mx-auto w-full max-w-6xl px-6 py-16 text-center sm:py-24">
-		<h1 class="mx-auto max-w-5xl text-balance text-5xl leading-[1.2] font-semibold tracking-tight text-foreground sm:text-8xl">
-			{words.map((word) => (
-				<span
-					data-word
-					class={`mr-[0.25em] inline-block ${word.gradient ? "gradient-text" : ""}`}
-				>
-					{word.text}
+		<h1 class="mx-auto max-w-5xl text-balance text-5xl leading-[1.15] font-semibold tracking-tight text-foreground sm:text-8xl">
+			{heroLines.map((line) => (
+				<span class="hero-line block">
+					{line.gradient ? (
+						<span class="gradient-text inline-block">{line.text}</span>
+					) : (
+						line.text
+					)}
 				</span>
 			))}
 		</h1>
-		<div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+		<h2 class="hero-description mx-auto mt-8 max-w-3xl font-sans text-base font-medium leading-relaxed tracking-[-0.02em] text-white/85 sm:mt-10 sm:text-xl lg:mt-12 lg:text-2xl">
+			Creamos páginas web rápidas, modernas y adaptadas a móvil para empresas y negocios que quieren mejorar su presencia online.
+		</h2>
+		<div class="hero-actions mt-10 flex flex-wrap items-center justify-center gap-3">
 			<slot />
 		</div>
 	</div>
